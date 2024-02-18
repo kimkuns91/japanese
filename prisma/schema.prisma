@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  email           String        @unique
+  name            String 
+  image           String        @default("/images/noUser.webp")
+  password        String
+  role            Role          @default(USER)
+  level           Int           @default(1)
+  provider        String        @default("credentials")
+  createdAt       DateTime      @default(now())
+  emailVerified   DateTime?     @map("verifiedAt")
+
+  userAnswers     UserAnswer[] 
+  
+  @@map("users")
+}
+
+model Question {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  sentence      String
+  word          String
+  translation   String
+  level         Int
+  choices       Choice[]
+  userAnswers   UserAnswer[] // Question 모델에 UserAnswer 모델을 참조하는 필드 추가
+  createdAt     DateTime     @default(now())
+
+  @@map("questions")
+}
+
+model Choice {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  text        String
+  isCorrect   Boolean
+  question    Question @relation(fields: [questionId], references: [id])
+  questionId  String   @db.ObjectId
+  userAnswers   UserAnswer[] // Question 모델에 UserAnswer 모델을 참조하는 필드 추가
+  @@map("choices")
+}
+
+model UserAnswer {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String    @db.ObjectId
+  user             User      @relation(fields: [userId], references: [id])
+  questionId       String    @db.ObjectId
+  question         Question  @relation(fields: [questionId], references: [id])
+  selectedChoiceId String?   @db.ObjectId
+  selectedChoice   Choice?   @relation(fields: [selectedChoiceId], references: [id])
+  isCorrect        Boolean
+  reviewStage      Int
+  lastAttemptAt    DateTime
+  nextReviewAt     DateTime
+  submitTime       DateTime  @default(now())
+
+  @@map("user_answers")
+}
+
+enum Role {
+  USER
+  ADMIN
+}

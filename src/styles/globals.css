@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollbar {
+  overflow-y: auto;
+}
+
+/* 스크롤바의 폭 너비 */
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3e248b; /* 스크롤바 색상 */
+  border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #020617; /*스크롤바 뒷 배경 색상*/
+}
+
+.button {
+  box-sizing: border-box;
+  background: linear-gradient(90deg, #b46ef3, #877ee9, #b46ef3);
+  background-size: 300% auto;
+  text-align: center;
+  text-transform: uppercase;
+  animation: gradientMove 5s infinite ease-in-out;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 300% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
