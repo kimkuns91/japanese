@@ -34,17 +34,17 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider session={session}>
-          <div className="flex w-full flex-col bg-[#FFD7DF]">
+          <div className="no-scrollbar relative mx-auto h-screen w-full max-w-[660px] overflow-y-auto overflow-x-hidden">
             <Header />
             {children}
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              closeOnClick
+              pauseOnFocusLoss={false}
+              theme="light"
+            />
           </div>
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            closeOnClick
-            pauseOnFocusLoss={false}
-            theme="light"
-          />
         </SessionProvider>
       </body>
     </html>
