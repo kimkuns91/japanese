@@ -9,10 +9,10 @@ datasource db {
 
 model User {
   id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  email           String        @unique
+  email           String?        @unique
   name            String 
   image           String        @default("/images/noUser.webp")
-  password        String
+  password        String?
   role            Role          @default(USER)
   level           Int           @default(1)
   provider        String        @default("credentials")
