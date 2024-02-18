@@ -34,7 +34,7 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider session={session}>
-          <div className="flex w-full flex-col">
+          <div className="flex w-full flex-col bg-[#FFD7DF]">
             <Header />
             {children}
           </div>
